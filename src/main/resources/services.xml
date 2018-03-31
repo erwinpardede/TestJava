@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="adminService" class="com.testjava.service.AdminService"/>
+    <bean id="cartService" class="com.testjava.service.CartService"/>
+    <bean id="categoryService" class="com.testjava.service.CategoryService"/>
+    <bean id="customerService" class="com.testjava.service.CustomerService"/>
+    <bean id="deliveryAddressService" class="com.testjava.service.DeliveryAddressService"/>
+    <bean id="logisticProviderService" class="com.testjava.service.LogisticProviderService"/>
+    <bean id="paymentMethodService" class="com.testjava.service.PaymentMethodService"/>
+    <bean id="productService" class="com.testjava.service.ProductService"/>
+    <bean id="shippingService" class="com.testjava.service.ShippingService"/>
+
+</beans>
