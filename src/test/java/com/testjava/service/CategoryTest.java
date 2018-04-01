@@ -19,7 +19,7 @@ public class CategoryTest {
     private ICategoryService categoryService;
 
     public CategoryTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         categoryService = (ICategoryService) context.getBean("categoryService");
     }
 
@@ -33,9 +33,6 @@ public class CategoryTest {
 
         Integer result = this.categoryService.save(category);
         assertEquals(Integer.valueOf(1), result);
-
-        List<Category> categories = this.categoryService.get();
-        assertEquals(1, categories.size());
 
         category = new Category();
         category.setId(1);

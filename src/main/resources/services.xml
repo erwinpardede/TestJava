@@ -4,13 +4,27 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="adminService" class="com.testjava.service.AdminService"/>
-    <bean id="cartService" class="com.testjava.service.CartService"/>
+    <bean id="cartService" class="com.testjava.service.CartService">
+        <property name="productService" ref="productService"/>
+        <property name="deliveryAddressService" ref="deliveryAddressService"/>
+    </bean>
     <bean id="categoryService" class="com.testjava.service.CategoryService"/>
-    <bean id="customerService" class="com.testjava.service.CustomerService"/>
+    <bean id="customerService" class="com.testjava.service.CustomerService">
+        <property name="paymentMethodService" ref="paymentMethodService"/>
+    </bean>
     <bean id="deliveryAddressService" class="com.testjava.service.DeliveryAddressService"/>
     <bean id="logisticProviderService" class="com.testjava.service.LogisticProviderService"/>
     <bean id="paymentMethodService" class="com.testjava.service.PaymentMethodService"/>
     <bean id="productService" class="com.testjava.service.ProductService"/>
     <bean id="shippingService" class="com.testjava.service.ShippingService"/>
+    <bean id="initializer" class="com.testjava.service.InitializingBean">
+        <property name="customerService" ref="customerService"/>
+        <property name="adminService" ref="adminService"/>
+        <property name="categoryService" ref="categoryService"/>
+        <property name="productService" ref="productService"/>
+        <property name="cartService" ref="cartService"/>
+        <property name="paymentMethodService" ref="paymentMethodService"/>
+        <property name="deliveryAddressService" ref="deliveryAddressService"/>
+    </bean>
 
 </beans>

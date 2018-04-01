@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class BaseService<T> implements IBaseService<T> {
 
-    private List<T> objects = new ArrayList<T>();
+    protected List<T> objects = new ArrayList<T>();
 
     public List<T> get() {
 

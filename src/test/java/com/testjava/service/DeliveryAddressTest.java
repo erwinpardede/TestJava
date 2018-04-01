@@ -21,7 +21,7 @@ public class DeliveryAddressTest {
     private IDeliveryAddressService deliveryAddressService;
 
     public DeliveryAddressTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         deliveryAddressService = (IDeliveryAddressService) context.getBean("deliveryAddressService");
     }
 
@@ -32,19 +32,25 @@ public class DeliveryAddressTest {
         deliveryAddress.setId(1);
         deliveryAddress.setAddress("address");
         deliveryAddress.setCity("city");
-        deliveryAddress.setCustomer(new Customer(1, "customer name"));
+        deliveryAddress.setCustomer(new Customer(999, "customer name"));
         deliveryAddress.setPostCode("4324324");
+        deliveryAddress.setSelected(true);
 
         Integer result = this.deliveryAddressService.save(deliveryAddress);
         assertEquals(Integer.valueOf(1), result);
 
-        List<DeliveryAddress> deliveryAddresses = this.deliveryAddressService.get();
+        //test get by customer
+        Customer customer = new Customer();
+        customer.setId(999);
+        List<DeliveryAddress> deliveryAddresses = this.deliveryAddressService.getByCustomer(customer);
         assertEquals(1, deliveryAddresses.size());
+        //test get by customer
 
         deliveryAddress = new DeliveryAddress();
         deliveryAddress.setId(1);
         deliveryAddress.setAddress("addressUpdated");
         deliveryAddress.setCity("cityUpdated");
+        deliveryAddress.setCustomer(new Customer(999));
 
         result = this.deliveryAddressService.update(deliveryAddress);
         assertEquals(Integer.valueOf(1), result);
@@ -56,6 +62,33 @@ public class DeliveryAddressTest {
         assertEquals("addressUpdated", deliveryAddress.getAddress());
         assertEquals("cityUpdated", deliveryAddress.getCity());
         assertNull(deliveryAddress.getPostCode());
+
+
+        //test update delivery address
+        deliveryAddress = new DeliveryAddress();
+        deliveryAddress.setId(2);
+        deliveryAddress.setAddress("address 2");
+        deliveryAddress.setCity("city 2");
+        deliveryAddress.setCustomer(new Customer(999, "customer name"));
+        deliveryAddress.setPostCode("44443131");
+        deliveryAddress.setSelected(false);
+        this.deliveryAddressService.save(deliveryAddress);
+
+        deliveryAddress = new DeliveryAddress();
+        deliveryAddress.setId(2);
+        deliveryAddress.setCustomer(new Customer(999));
+        result = this.deliveryAddressService.updateDeliveryAddress(deliveryAddress);
+        assertEquals(Integer.valueOf(1), result);
+
+        deliveryAddress = new DeliveryAddress(1);
+        deliveryAddress = this.deliveryAddressService.get(deliveryAddress);
+        assertEquals(false, deliveryAddress.getSelected());
+
+        deliveryAddress = new DeliveryAddress(2);
+        deliveryAddress = this.deliveryAddressService.get(deliveryAddress);
+        assertEquals(true, deliveryAddress.getSelected());
+        //test update delivery address
+
 
         deliveryAddress = new DeliveryAddress();
         deliveryAddress.setId(1);

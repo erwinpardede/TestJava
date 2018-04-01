@@ -20,7 +20,7 @@ public class ShippingTest {
     private IShippingService shippingService;
 
     public ShippingTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         shippingService = (IShippingService) context.getBean("shippingService");
     }
 

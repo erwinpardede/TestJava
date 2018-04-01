@@ -19,7 +19,7 @@ public class PaymentMethodTest {
     private IPaymentMethodService paymentMethodService;
 
     public PaymentMethodTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         paymentMethodService = (IPaymentMethodService) context.getBean("paymentMethodService");
     }
 
@@ -32,9 +32,6 @@ public class PaymentMethodTest {
 
         Integer result = this.paymentMethodService.save(paymentMethod);
         assertEquals(Integer.valueOf(1), result);
-
-        List<PaymentMethod> paymentMethods = this.paymentMethodService.get();
-        assertEquals(1, paymentMethods.size());
 
         paymentMethod = new PaymentMethod();
         paymentMethod.setId(1);

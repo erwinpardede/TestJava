@@ -19,7 +19,7 @@ public class LogisticProviderTest {
     private ILogisticProviderService logisticProviderService;
 
     public LogisticProviderTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         logisticProviderService = (ILogisticProviderService) context.getBean("logisticProviderService");
     }
 

@@ -1,5 +1,7 @@
 package com.testjava.model;
 
+import com.testjava.util.Constant;
+
 /**
  * Created by erwin on 3/30/18.
  */
@@ -10,6 +12,14 @@ public class Cart {
     private Integer quantity;
     private Customer customer;
     private Integer status;
+    private String statusValue;
+
+    public Cart() {
+    }
+
+    public Cart(Integer id) {
+        this.id = id;
+    }
 
     public Integer getId() {
         return id;
@@ -49,6 +59,14 @@ public class Cart {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getStatusValue() {
+        return Constant.status.get(status);
+    }
+
+    public void setStatusValue(String statusValue) {
+        this.statusValue = Constant.status.get(status);
     }
 
     @Override

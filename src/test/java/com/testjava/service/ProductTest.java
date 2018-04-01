@@ -20,7 +20,7 @@ public class ProductTest {
     private IProductService productService;
 
     public ProductTest() {
-        context = new ClassPathXmlApplicationContext(new String("services.xml"));
+        context = new ClassPathXmlApplicationContext("services.xml");
         productService = (IProductService) context.getBean("productService");
     }
 
@@ -36,9 +36,6 @@ public class ProductTest {
 
         Integer result = this.productService.save(product);
         assertEquals(Integer.valueOf(1), result);
-
-        List<Product> products = this.productService.get();
-        assertEquals(1, products.size());
 
         product = new Product();
         product.setId(1);

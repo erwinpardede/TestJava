@@ -7,8 +7,13 @@ public class Customer {
 
     private Integer id;
     private String name;
+    private PaymentMethod paymentMethod;
 
     public Customer() {
+    }
+
+    public Customer(Integer id) {
+        this.id = id;
     }
 
     public Customer(Integer id, String name) {
@@ -30,6 +35,14 @@ public class Customer {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 
     @Override

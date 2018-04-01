@@ -1,19 +1,47 @@
 package com.testjava.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import com.testjava.model.Customer;
+import com.testjava.model.DeliveryAddress;
+import com.testjava.service.ICustomerService;
+import com.testjava.service.IDeliveryAddressService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by erwin on 3/31/18.
  */
 @RestController
-@RequestMapping(value = "/api")
+@RequestMapping(value = "/customer")
 public class CustomerController {
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String get() {
-        return "231321432";
+    @Autowired
+    private ICustomerService customerService;
+    @Autowired
+    private IDeliveryAddressService deliveryAddressService;
+
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public Customer get(@PathVariable(value = "id") Integer id) {
+        return this.customerService.get(new Customer(id));
+    }
+
+    @RequestMapping(value = "/updatePaymentMethod", method = RequestMethod.POST)
+    public String updatePaymentMethod(@RequestBody Customer customer) {
+        Integer result = this.customerService.updatePaymentMethod(customer);
+        if (result == 1) {
+            return "Payment method updated successfully";
+        } else {
+            return "Failed to update payment method";
+        }
+    }
+
+    @RequestMapping(value = "/updateDeliveryAddress", method = RequestMethod.POST)
+    public String updateDeliveryAddress(@RequestBody DeliveryAddress deliveryAddress) {
+        Integer result = this.deliveryAddressService.updateDeliveryAddress(deliveryAddress);
+        if (result == 1) {
+            return "Delivery address updated successfully";
+        } else {
+            return "Failed to update delivery address";
+        }
     }
 
 }

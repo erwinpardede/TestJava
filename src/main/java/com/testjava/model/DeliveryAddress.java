@@ -10,8 +10,13 @@ public class DeliveryAddress {
     private String city;
     private String postCode;
     private Customer customer;
+    private Boolean selected;
 
     public DeliveryAddress() {
+    }
+
+    public DeliveryAddress(Integer id) {
+        this.id = id;
     }
 
     public DeliveryAddress(Integer id, String address, String city, String postCode, Customer customer) {
@@ -60,6 +65,14 @@ public class DeliveryAddress {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Boolean getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Boolean selected) {
+        this.selected = selected;
     }
 
     @Override
