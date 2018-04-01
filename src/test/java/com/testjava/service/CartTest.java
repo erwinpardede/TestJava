@@ -21,12 +21,16 @@ public class CartTest {
     private ICartService cartService;
     private IProductService productService;
     private IDeliveryAddressService deliveryAddressService;
+    private ILogisticProviderService logisticProviderService;
+    private IShippingService shippingService;
 
     public CartTest() {
         context = new ClassPathXmlApplicationContext("services.xml");
         cartService = (ICartService) context.getBean("cartService");
         productService = (IProductService) context.getBean("productService");
         deliveryAddressService = (IDeliveryAddressService) context.getBean("deliveryAddressService");
+        logisticProviderService = (ILogisticProviderService) context.getBean("logisticProviderService");
+        shippingService = (IShippingService) context.getBean("shippingService");
     }
 
     @Test
@@ -42,6 +46,7 @@ public class CartTest {
                 1));
         cart.setQuantity(1);
         cart.setStatus(0);
+        cart.setShipping(new Shipping(1));
 
         Integer result = this.cartService.save(cart);
         assertEquals(Integer.valueOf(1), result);
@@ -133,6 +138,31 @@ public class CartTest {
                 cart1.getStatus() == 3 || cart1.getStatus() == 4);
         }
         //test check all
+
+        //test process shipping
+        LogisticProvider logisticProvider = new LogisticProvider();
+        logisticProvider.setId(999);
+        logisticProvider.setName("Logistic Provider 1");
+        this.logisticProviderService.save(logisticProvider);
+
+        Shipping shipping = new Shipping();
+        shipping.setId(1);
+        shipping.setLogisticProvider(logisticProvider);
+
+        customer = new Customer(999);
+        carts = this.cartService.getByCustomer(customer);
+        cart = carts.get(0);
+        cart.setStatus(1); //hard coded validation
+        this.cartService.update(cart);
+        cart.setShipping(shipping);
+        result = this.shippingService.processShipping(cart);
+        assertEquals(Integer.valueOf(1), result);
+
+        for (Cart cart1 : carts) {
+            assertNotNull(cart1.getShipping().getShippingNumber());
+            assertEquals(Integer.valueOf(5), cart.getStatus());
+        }
+        //test process shipping
 
         cart = new Cart();
         cart.setId(999);

@@ -12,6 +12,10 @@ public class Shipping {
     public Shipping() {
     }
 
+    public Shipping(Integer id) {
+        this.id = id;
+    }
+
     public Integer getId() {
         return id;
     }

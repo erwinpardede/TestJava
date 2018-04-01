@@ -33,9 +33,6 @@ public class LogisticProviderTest {
         Integer result = this.logisticProviderService.save(logisticProvider);
         assertEquals(Integer.valueOf(1), result);
 
-        List<LogisticProvider> logisticProviders = this.logisticProviderService.get();
-        assertEquals(1, logisticProviders.size());
-
         logisticProvider = new LogisticProvider();
         logisticProvider.setId(1);
         logisticProvider.setName("logistic provider updated");

@@ -16,7 +16,10 @@
     <bean id="logisticProviderService" class="com.testjava.service.LogisticProviderService"/>
     <bean id="paymentMethodService" class="com.testjava.service.PaymentMethodService"/>
     <bean id="productService" class="com.testjava.service.ProductService"/>
-    <bean id="shippingService" class="com.testjava.service.ShippingService"/>
+    <bean id="shippingService" class="com.testjava.service.ShippingService">
+        <property name="cartService" ref="cartService"/>
+        <property name="logisticProviderService" ref="logisticProviderService"/>
+    </bean>
     <bean id="initializer" class="com.testjava.service.InitializingBean">
         <property name="customerService" ref="customerService"/>
         <property name="adminService" ref="adminService"/>
@@ -25,6 +28,7 @@
         <property name="cartService" ref="cartService"/>
         <property name="paymentMethodService" ref="paymentMethodService"/>
         <property name="deliveryAddressService" ref="deliveryAddressService"/>
+        <property name="logisticProviderService" ref="logisticProviderService"/>
     </bean>
 
 </beans>

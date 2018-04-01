@@ -14,6 +14,11 @@ public class InitializingBean implements org.springframework.beans.factory.Initi
     private ICartService cartService;
     private IPaymentMethodService paymentMethodService;
     private IDeliveryAddressService deliveryAddressService;
+    private ILogisticProviderService logisticProviderService;
+
+    public void setLogisticProviderService(ILogisticProviderService logisticProviderService) {
+        this.logisticProviderService = logisticProviderService;
+    }
 
     public void setDeliveryAddressService(IDeliveryAddressService deliveryAddressService) {
         this.deliveryAddressService = deliveryAddressService;
@@ -193,5 +198,15 @@ public class InitializingBean implements org.springframework.beans.factory.Initi
         customer = this.customerService.get(new Customer(1));
         customer.setPaymentMethod(this.paymentMethodService.get(new PaymentMethod(1)));
         this.customerService.update(customer);
+
+        LogisticProvider logisticProvider = new LogisticProvider();
+        logisticProvider.setId(1);
+        logisticProvider.setName("Logistic Provider 1");
+        this.logisticProviderService.save(logisticProvider);
+
+        logisticProvider = new LogisticProvider();
+        logisticProvider.setId(2);
+        logisticProvider.setName("Logistic Provider 2");
+        this.logisticProviderService.save(logisticProvider);
     }
 }

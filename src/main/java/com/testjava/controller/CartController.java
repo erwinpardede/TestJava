@@ -6,6 +6,7 @@ import com.testjava.model.Product;
 import com.testjava.service.ICartService;
 import com.testjava.service.ICustomerService;
 import com.testjava.service.IProductService;
+import com.testjava.service.IShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,10 +25,17 @@ public class CartController {
     private ICustomerService customerService;
     @Autowired
     private IProductService productService;
+    @Autowired
+    private IShippingService shippingService;
 
     @RequestMapping(value = "/{customerId}/getcart", method = RequestMethod.GET)
     public List<Cart> getByCustomer(@PathVariable(value = "customerId") Integer customerId) {
         return this.cartService.getByCustomer(new Customer(customerId));
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<Cart> get() {
+        return this.cartService.get();
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
@@ -37,8 +45,8 @@ public class CartController {
 
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(@RequestBody Cart cart) {
-        cart.setCustomer(this.customerService.get(new Customer(cart.getCustomer().getId())));
-        cart.setProduct(this.productService.get(new Product(cart.getProduct().getId())));
+        cart.setCustomer(this.customerService.get(cart.getCustomer()));
+        cart.setProduct(this.productService.get(cart.getProduct()));
         cart.setStatus(0);
         Integer result = this.cartService.save(cart);
         if (result == 1) {
@@ -50,9 +58,26 @@ public class CartController {
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(@RequestBody Cart cart) {
-        cart.setCustomer(this.customerService.get(new Customer(cart.getCustomer().getId())));
-        cart.setProduct(this.productService.get(new Product(cart.getProduct().getId())));
+        Cart cart1 = this.cartService.get(cart); //get values from previous data
+        cart.setCustomer(cart1.getCustomer());
+
+        cart.setProduct(this.productService.get(cart.getProduct()));
         cart.setStatus(0);
+        Integer result = this.cartService.update(cart);
+        if (result == 1) {
+            return "Cart updated successfully";
+        } else {
+            return "Failed to update cart";
+        }
+    }
+
+    @RequestMapping(value = "/updateByAdmin", method = RequestMethod.POST)
+    public String updateByAdmin(@RequestBody Cart cart) {
+        Cart cart1 = this.cartService.get(cart); //get values from previous data
+        cart.setCustomer(cart1.getCustomer());
+        cart.setProduct(cart1.getProduct());
+        cart.setQuantity(cart1.getQuantity());
+
         Integer result = this.cartService.update(cart);
         if (result == 1) {
             return "Cart updated successfully";
@@ -78,6 +103,16 @@ public class CartController {
             return "Order submitted successfully";
         } else {
             return "Failed to submit order";
+        }
+    }
+
+    @RequestMapping(value = "/processShipping", method = RequestMethod.POST)
+    public String processShipping(@RequestBody Cart cart) {
+        Integer result = this.shippingService.processShipping(cart);
+        if (result == 1) {
+            return "Shipping processed successfully";
+        } else {
+            return "Failed to process shipping";
         }
     }
 }

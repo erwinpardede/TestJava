@@ -13,6 +13,7 @@ public class Cart {
     private Customer customer;
     private Integer status;
     private String statusValue;
+    private Shipping shipping;
 
     public Cart() {
     }
@@ -67,6 +68,14 @@ public class Cart {
 
     public void setStatusValue(String statusValue) {
         this.statusValue = Constant.status.get(status);
+    }
+
+    public Shipping getShipping() {
+        return shipping;
+    }
+
+    public void setShipping(Shipping shipping) {
+        this.shipping = shipping;
     }
 
     @Override
